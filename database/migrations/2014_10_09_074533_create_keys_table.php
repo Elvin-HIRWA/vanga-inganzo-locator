@@ -13,19 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('User', function (Blueprint $table) {
+        Schema::create('Key', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->unsignedBigInteger('keyID'); //foreign key from the key
-            $table->rememberToken();
+            $table->string('value');   // this is key value 
+            $table->unsignedBigInteger('permissionID');  // foreign key
             $table->timestamps();
 
-
-
-            $table->foreign('keyID')->references('id')->on('Key')
+            $table->foreign('permissionID')->references('id')->on('Permission')
              ->onDelete('restrict')
                ->onUpdate('cascade');
         });
@@ -38,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('User');
+        Schema::dropIfExists('Key');
     }
 };
