@@ -9,5 +9,5 @@ class Key extends Model
 {
     use HasFactory;
 
-    protected $table = 'Key';
+    protected $table = 'KeyPermission';
 }

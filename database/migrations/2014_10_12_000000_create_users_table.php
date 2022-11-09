@@ -25,7 +25,7 @@ return new class extends Migration
 
 
 
-            $table->foreign('keyID')->references('id')->on('Key')
+            $table->foreign('keyID')->references('id')->on('KeyPermission')
              ->onDelete('restrict')
                ->onUpdate('cascade');
         });

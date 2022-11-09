@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Key', function (Blueprint $table) {
+        Schema::create('KeyPermission', function (Blueprint $table) {
             $table->id();
             $table->string('value');   // this is key value 
             $table->unsignedBigInteger('permissionID');  // foreign key
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Key');
+        Schema::dropIfExists('KeyPermission');
     }
 };
