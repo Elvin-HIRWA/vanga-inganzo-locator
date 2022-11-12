@@ -13,15 +13,17 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'User';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'keyID'
     ];
 
     /**
@@ -47,10 +49,10 @@ class User extends Authenticatable
     {
         $userPermission = DB::select('SELECT Permission.id AS id, Permission.name AS permissionname 
         FROM User
-        INNER JOIN KEY 
-        ON User.keyId=Key.id 
+        INNER JOIN KeyPermission 
+        ON User.keyId=KeyPermission.id 
         INNER JOIN Permission
-        ON Key.permissionId=Permission.id 
+        ON KeyPermission.permissionId=Permission.id 
         WHERE User.id =?', [$userId]);
 
         return $userPermission;

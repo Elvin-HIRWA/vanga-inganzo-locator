@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('auth')->group(function () {
-    Route::post('/sign-up', [AuthenticationController::class, 'createAccount']);
+    Route::post('/register', [AuthenticationController::class, 'createAccount']);
+    Route::post('/login', [AuthenticationController::class, 'signin']);
+    Route::get('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
+    Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
+    Route::post('/forgot-password', [ResetPasswordController::class, 'forgot']);
 });
 
 Route::post('/sending-key',[SendingKeyController::class, 'sendingKey']);//->middleware(['auth:sanctum', 'ability:Admin']);
