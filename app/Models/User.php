@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -41,4 +42,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function getUserPermission(int $userId): array
+    {
+        $userPermission = DB::select('SELECT Permission.id AS id, Permission.name AS permissionname 
+        FROM User
+        INNER JOIN KEY 
+        ON User.keyId=Key.id 
+        INNER JOIN Permission
+        ON Key.permissionId=Permission.id 
+        WHERE User.id =?', [$userId]);
+
+        return $userPermission;
+    }
 }
