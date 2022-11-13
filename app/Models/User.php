@@ -45,6 +45,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function getUsersWithTheirPermissions(): array
+    {
+        $user = DB::select(
+            "SELECT u.email as userEmail, p.name as `permissionName`
+            FROM User u 
+            INNER JOIN `KeyPermission` k  
+            ON u.keyID = k.id 
+            INNER JOIN Permission p 
+            on k.PermissionID = p.id"
+        );
+
+        return $user;
+    }
+
     public static function getUserPermission(int $userId): array
     {
         $userPermission = DB::select('SELECT Permission.id AS id, Permission.name AS permissionname 
