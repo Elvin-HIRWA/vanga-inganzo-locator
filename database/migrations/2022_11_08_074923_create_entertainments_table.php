@@ -17,22 +17,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('venue');
-            $table->unsignedBigInteger('contractorID');
-            $table->unsignedBigInteger('contracteeID');
+            $table->unsignedBigInteger('userID');
             $table->integer('startTime');
             $table->integer('endTime');
-            $table->integer('EventDate');
+            $table->integer('eventDate');
             $table->string('img_path');
             $table->timestamps();
 
 
-            $table->foreign('contractorID')->references('id')->on('User')
+            $table->foreign('userID')->references('id')->on('User')
              ->onDelete('restrict')
                ->onUpdate('cascade');
-
-            $table->foreign('contracteeID')->references('id')->on('Contractee')
-               ->onDelete('restrict')
-                 ->onUpdate('cascade');
         });
     }
 

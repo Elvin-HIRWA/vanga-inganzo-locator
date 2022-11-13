@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\EntertainmentsController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
 use Illuminate\Http\Request;
@@ -27,6 +28,10 @@ Route::prefix('auth')->group(function () {
     Route::get('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
     Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
     Route::post('/forgot-password', [ResetPasswordController::class, 'forgot']);
+});
+
+Route::prefix('posts')->group(function() {
+    Route::post('/create-entertainment', [EntertainmentsController::class, 'store'])->middleware('auth:sanctum');
 });
 
 Route::post('/sending-key',[SendingKeyController::class, 'sendingKey']);//->middleware(['auth:sanctum', 'ability:Admin']);

@@ -10,4 +10,14 @@ class Entertainment extends Model
     use HasFactory;
 
     protected $table = 'Entertainment';
+
+    protected $fillable = [
+        "name",
+        "venue",
+        "startTime",
+        "endTime",
+        "eventDate",
+        "userID",
+        "img_path"
+    ];
 }
