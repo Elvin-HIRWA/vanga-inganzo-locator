@@ -135,9 +135,10 @@ class EntertainmentsController extends Controller
     {
         $entertainment = Entertainment::where('id',$id)->where('userID',Auth::id())->first();
 
-        if($entertainment){
-            Storage::delete($entertainment->img_path);
-            $entertainment->delete();
+        if(!$entertainment){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
         }
+        Storage::delete($entertainment->img_path);
+        $entertainment->delete();
     }
 }

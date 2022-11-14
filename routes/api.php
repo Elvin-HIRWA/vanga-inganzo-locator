@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EntertainmentsController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
@@ -36,6 +37,14 @@ Route::prefix('entertainments')->group(function() {
     Route::get('/get/{id}', [EntertainmentsController::class, 'show'])->middleware('auth:sanctum');
     Route::post('/update/{id}', [EntertainmentsController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [EntertainmentsController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('blog')->group(function() {
+    Route::post('/create', [BlogController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/get', [BlogController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/get/{id}', [BlogController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('/update/{id}', [BlogController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [BlogController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 Route::post('/sending-key',[SendingKeyController::class, 'sendingKey'])->middleware(['auth:sanctum', 'ability:Admin']);
