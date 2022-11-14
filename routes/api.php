@@ -30,8 +30,12 @@ Route::prefix('auth')->group(function () {
     Route::post('/forgot-password', [ResetPasswordController::class, 'forgot']);
 });
 
-Route::prefix('posts')->group(function() {
-    Route::post('/create-entertainment', [EntertainmentsController::class, 'store'])->middleware('auth:sanctum');
+Route::prefix('entertainments')->group(function() {
+    Route::post('/create', [EntertainmentsController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/get', [EntertainmentsController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/get/{id}', [EntertainmentsController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('/update/{id}', [EntertainmentsController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', [EntertainmentsController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
-Route::post('/sending-key',[SendingKeyController::class, 'sendingKey']);//->middleware(['auth:sanctum', 'ability:Admin']);
+Route::post('/sending-key',[SendingKeyController::class, 'sendingKey'])->middleware(['auth:sanctum', 'ability:Admin']);
