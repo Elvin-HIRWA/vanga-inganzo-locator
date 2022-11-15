@@ -73,10 +73,10 @@ class EntertainmentsController extends Controller
     public function show($id)
     {
         $entertainment = Entertainment::find($id);
-        if($entertainment){
-            return $entertainment;
+        if(!$entertainment){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
         }
-        return ["fail"=>"not found"];
+        return $entertainment;
     }
 
     /**
@@ -122,7 +122,7 @@ class EntertainmentsController extends Controller
         $entertainment->img_path = $path;
         $entertainment->save();
 
-        return $entertainment;
+        return response()->json(['success' =>'updated successfully']);
     }
 
     /**
@@ -140,5 +140,7 @@ class EntertainmentsController extends Controller
         }
         Storage::delete($entertainment->img_path);
         $entertainment->delete();
+
+        return response()->json(['success' =>'deleted successfully']);
     }
 }
