@@ -143,4 +143,16 @@ class EntertainmentsController extends Controller
 
         return response()->json(['success' =>'deleted successfully']);
     }
+
+
+    public function getImage($fileName)
+    {
+        if (Storage::exists('postFlyer/' . $fileName)) {
+            
+            return response()->file(storage_path('/app/postFlyer/' . $fileName));
+        }
+        else{
+            return response()->json(['File not Found']);
+        }
+    }
 }
