@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EntertainmentsController;
+use App\Http\Controllers\EntertainmentsPostController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
 use Illuminate\Http\Request;
@@ -47,6 +48,15 @@ Route::prefix('blog')->group(function() {
     Route::post('/update/{id}', [BlogController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [BlogController::class, 'destroy'])->middleware('auth:sanctum');
     Route::get('/get-image/{filename}',[EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
+});
+
+Route::prefix('entertainmentsPost')->group(function() {
+    Route::post('/create', [EntertainmentsPostController::class, 'store'])->middleware('auth:sanctum');
+    // Route::get('/get', [BlogController::class, 'index'])->middleware('auth:sanctum');
+    // Route::get('/get/{id}', [BlogController::class, 'show'])->middleware('auth:sanctum');
+    // Route::post('/update/{id}', [BlogController::class, 'update'])->middleware('auth:sanctum');
+    // Route::delete('/delete/{id}', [BlogController::class, 'destroy'])->middleware('auth:sanctum');
+    // Route::get('/get-image/{filename}',[EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
 });
 
 Route::post('/sending-key',[SendingKeyController::class, 'sendingKey'])->middleware(['auth:sanctum', 'ability:Admin']);

@@ -10,4 +10,10 @@ class EntertainmentsPost extends Model
     use HasFactory;
 
     protected $table = "EntertainmentsPost";
+
+    protected $fillable = [
+        "title",
+        "userID",
+        "url"
+    ];
 }
