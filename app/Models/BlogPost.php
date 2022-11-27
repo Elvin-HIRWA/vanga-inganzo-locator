@@ -10,4 +10,11 @@ class BlogPost extends Model
     use HasFactory;
 
     protected $table = 'BlogPost';
+
+    protected $fillable = [
+        "title",
+        "description",
+        "userID",
+        "image_path"
+    ];
 }

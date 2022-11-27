@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entertainment;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EntertainmentsController extends Controller
 {
@@ -15,7 +18,7 @@ class EntertainmentsController extends Controller
      */
     public function index()
     {
-        //
+        return Entertainment::all();
     }
 
     /**
@@ -51,11 +54,11 @@ class EntertainmentsController extends Controller
         Entertainment::create([
             'name' => $request->name,
             'venue' => $request->venue,
-            'userID' => auth()->user()->id,
+            'userID' => Auth::id(),
             'img_path' => $path,
             'startTime' => $request->startTime,
             'endTime' => $request->endTime,
-            'EventDate' => $request->EventDate
+            'eventDate' => $request->eventDate
         ]);
 
         return response()->json(['success' => true], Response::HTTP_OK);
@@ -69,7 +72,11 @@ class EntertainmentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $entertainment = Entertainment::find($id);
+        if(!$entertainment){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
+        }
+        return $entertainment;
     }
 
     /**
@@ -92,7 +99,30 @@ class EntertainmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request-> validate([
+            'name' => 'required|string',
+            'venue'=>'required|string',
+            'startTime'=>'required',
+            'endTime'=>'required',
+            'eventDate'=>'required',
+            'image'=>'required|mimes:jpg,png,jpeg|max:5048'
+        ]);
+
+        $entertainment = Entertainment::where('id',$id)->where('userID',Auth::id())->first();
+        if(!$entertainment){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $entertainment->name = $request['name'];
+        $entertainment->venue = $request['venue'];
+        $entertainment->startTime = $request['startTime'];
+        $entertainment->endTime = $request['eventDate'];
+        $path = $request->image->store('postFlyer');
+        Storage::delete($entertainment->img_path);
+        $entertainment->img_path = $path;
+        $entertainment->save();
+
+        return response()->json(['success' =>'updated successfully']);
     }
 
     /**
@@ -103,6 +133,26 @@ class EntertainmentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $entertainment = Entertainment::where('id',$id)->where('userID',Auth::id())->first();
+
+        if(!$entertainment){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
+        }
+        Storage::delete($entertainment->img_path);
+        $entertainment->delete();
+
+        return response()->json(['success' =>'deleted successfully']);
+    }
+
+
+    public function getImage($fileName)
+    {
+        if (Storage::exists('postFlyer/' . $fileName)) {
+            
+            return response()->file(storage_path('/app/postFlyer/' . $fileName));
+        }
+        else{
+            return response()->json(['File not Found']);
+        }
     }
 }
