@@ -17,7 +17,8 @@ class EntertainmentsPostController extends Controller
      */
     public function index()
     {
-        //
+        return EntertainmentsPost::all()->paginate(10);
+             
     }
 
     /**
@@ -64,7 +65,11 @@ class EntertainmentsPostController extends Controller
      */
     public function show($id)
     {
-        //
+        $entertainmentPost = EntertainmentsPost::find($id);
+        if(!$entertainmentPost){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
+        }
+        return $entertainmentPost;
     }
 
     /**
@@ -87,7 +92,21 @@ class EntertainmentsPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request-> validate([
+            'title' => 'required|string',
+            'youtubeLink' => 'required|string|min:20|max:80'
+        ]);
+
+        $entertainmentPost = EntertainmentsPost::where('id',$id)->where('userID',Auth::id())->first();
+        if(!$entertainmentPost){
+            return response()->json(['Entertainment not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $entertainmentPost->name = $request['title'];
+        $entertainmentPost->youtubeLink = $request['youtubeLink'];
+        $entertainmentPost->save();
+
+        return response()->json(['success' =>'updated successfully']);
     }
 
     /**
@@ -103,9 +122,13 @@ class EntertainmentsPostController extends Controller
 
     public function getVideo($fileName)
     {
-        if (Storage::exists('youtubeVideos/' . $fileName)) {
-            return response()->file(storage_path('/app/youtubeVideos/' . $fileName));
-        }
+        $videoSrc = "";
+
+        $video = EntertainmentsPost::where();
+
+        $videoSrc = '' . explode('watch?v=', $video->url)[1];
+
+        return response()->json(['src' => $videoSrc]);
 
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EntertainmentsController;
 use App\Http\Controllers\EntertainmentsPostController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
 use Illuminate\Http\Request;
@@ -60,3 +61,9 @@ Route::prefix('entertainmentsPost')->group(function() {
 });
 
 Route::post('/sending-key',[SendingKeyController::class, 'sendingKey'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::post('/permission-create', [PermissionController::class, 'permissionCreate'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::get('/permission-list', [PermissionController::class, 'listPermission'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::get('/permission/{id}', [PermissionController::class, 'getPermission'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::put('/permission-update/{id}', [PermissionController::class, 'updatePermission'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::delete('/permission-delete/{id}', [PermissionController::class, 'deletePermission'])->middleware(['auth:sanctum', 'ability:Admin']);
+
