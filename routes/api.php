@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EntertainmentsController;
 use App\Http\Controllers\EntertainmentsPostController;
+use App\Http\Controllers\KeyController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
@@ -67,3 +68,8 @@ Route::get('/permission/{id}', [PermissionController::class, 'getPermission'])->
 Route::put('/permission-update/{id}', [PermissionController::class, 'updatePermission'])->middleware(['auth:sanctum', 'ability:Admin']);
 Route::delete('/permission-delete/{id}', [PermissionController::class, 'deletePermission'])->middleware(['auth:sanctum', 'ability:Admin']);
 
+Route::post('/key-create', [KeyController::class, 'keyCreate'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::get('/key-list', [KeyController::class, 'listKey'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::get('/key/{id}', [KeyController::class, 'getKey'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::delete('/key-delete/{id}', [KeyController::class, 'deleteKey'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::get('/key-permission-list', [KeyController::class, 'permissionKeyList'])->middleware(['auth:sanctum', 'ability:Admin']);
