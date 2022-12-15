@@ -8,6 +8,7 @@ use App\Http\Controllers\KeyController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,3 +74,6 @@ Route::get('/key-list', [KeyController::class, 'listKey'])->middleware(['auth:sa
 Route::get('/key/{id}', [KeyController::class, 'getKey'])->middleware(['auth:sanctum', 'ability:Admin']);
 Route::delete('/key-delete/{id}', [KeyController::class, 'deleteKey'])->middleware(['auth:sanctum', 'ability:Admin']);
 Route::get('/key-permission-list', [KeyController::class, 'permissionKeyList'])->middleware(['auth:sanctum', 'ability:Admin']);
+
+Route::get('/users', [UsersController::class, 'getAllUsers'])->middleware(['auth:sanctum', 'ability:Admin']);
+Route::get('/user/{id}', [UsersController::class, 'getSingleUser'])->middleware(['auth:sanctum', 'ability:Admin']);

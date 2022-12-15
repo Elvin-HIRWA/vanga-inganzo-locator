@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Key;
 use App\Models\Permission;
 use App\Services\PermissionService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -27,9 +28,9 @@ class PermissionController extends Controller
     }
 
 
-    public function listPermission(PermissionService $service)
+    public function listPermission(UserService $service)
     {
-        $results = $service->listPermission();
+        $results = $service->getAllUsers();
 
         return Response()->json($results, 200);
     }
