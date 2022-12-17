@@ -28,9 +28,9 @@ class PermissionController extends Controller
     }
 
 
-    public function listPermission(UserService $service)
+    public function listPermission(PermissionService $service)
     {
-        $results = $service->getAllUsers();
+        $results = $service->listPermission();
 
         return Response()->json($results, 200);
     }
