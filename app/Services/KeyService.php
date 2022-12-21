@@ -26,7 +26,7 @@ class KeyService
 
     public function listKey()
     {
-        $keys = Key::all(['id', 'value', 'permissionID']);
+        $keys = Key::getKeyWithTheirPermission();
         
         return $keys;
     }
