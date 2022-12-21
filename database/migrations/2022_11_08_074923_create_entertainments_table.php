@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('userID');
             $table->integer('startTime');
             $table->integer('endTime');
-            $table->integer('eventDate');
             $table->string('img_path');
             $table->timestamps();
 
@@ -28,6 +27,8 @@ return new class extends Migration
             $table->foreign('userID')->references('id')->on('User')
              ->onDelete('restrict')
                ->onUpdate('cascade');
+
+            $table->unique(['name','venue','startTime','endTime'],'eventPerTime');
         });
     }
 
