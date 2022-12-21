@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class EntertainmentsController extends Controller
 {
@@ -65,14 +66,18 @@ class EntertainmentsController extends Controller
      */
     public function store(Request $request)
     {
-        $request-> validate([
+        $validation = Validator::make($request->all(),[
             'name' => 'required|string',
             'venue'=>'required|string',
+            'userID' => 'required|integer',
             'startTime'=>'required',
             'endTime'=>'required',
-            'eventDate'=>'required',
             'image'=>'required|mimes:jpg,png,jpeg|max:5048'
         ]);
+
+        if ($validation->fails()) {
+            return response()->json(["errors" => $validation->errors()->all()], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         
         $path = $request->image->store('postFlyer'); 
     
@@ -80,11 +85,10 @@ class EntertainmentsController extends Controller
         Entertainment::create([
             'name' => $request->name,
             'venue' => $request->venue,
-            'userID' => Auth::id(),
+            'userID' => $request->userID,
             'img_path' => $path,
             'startTime' => $request->startTime,
-            'endTime' => $request->endTime,
-            'eventDate' => $request->eventDate
+            'endTime' => $request->endTime
         ]);
 
         return response()->json(['success' => true], Response::HTTP_OK);
