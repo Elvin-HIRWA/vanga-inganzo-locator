@@ -32,8 +32,8 @@ class UserService
         "id" => $value->id,
         "name" => $value->name,
         "email" => $value->email,
-        "permissionName" => $value->permissionName,
-        "createdDate" => Carbon::parse($value->createdDate)->format('Y-m-d'),
+        "status" => $value->permissionName,
+        "since" => Carbon::parse($value->createdDate)->format('Y-m-d'),
       ];
 
       array_push($result, $user);
