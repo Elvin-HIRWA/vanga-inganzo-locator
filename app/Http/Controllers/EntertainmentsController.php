@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entertainment;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,13 +13,38 @@ use Illuminate\Support\Facades\Storage;
 class EntertainmentsController extends Controller
 {
     /**
-     * Display a listing of the Entertainments.
+     * Display a listing of the Entertainments current user created.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return Entertainment::all();
+        $entertainments =  Entertainment::where('userID',Auth::id())->orderBy('created_at', 'DESC')->get();
+
+        $result = [];
+
+        foreach($entertainments as $value){
+
+            $entertainment = [
+                "id" => $value->id,
+                "name" => $value->name,
+                "venue" =>$value->venue,
+                "userID" => $value->userID,
+                "startTime" =>  Carbon::parse($value->startTime)->format('Y-m-d H:i'),
+                "endTime" => Carbon::parse($value->endTime)->format('Y-m-d H:i'),
+                "eventDate" => Carbon::parse($value->eventDate)->format('Y-m-d'),
+                "img_path" => $value->img_path,
+                "created_at" => $value->created_at,
+                "updated_at" => $value->updated_at
+            ];
+
+            array_push($result,$entertainment);
+        }
+        
+            return response()->json($result);
+        
+
+        
     }
 
     /**

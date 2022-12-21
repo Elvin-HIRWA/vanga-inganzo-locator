@@ -17,6 +17,7 @@ class AuthenticationController extends Controller
 
         $validation = Validator::make($request->all(), [
             "key" => "required|string|min:10",
+            "name" => "required|string|max:255",
             "email" => "required|email:rfc,dns",
             "password" => "required|string|min:6|confirmed"
         ]);
@@ -34,7 +35,8 @@ class AuthenticationController extends Controller
         $user = User::create([
             'keyID' => $key->id,
             'password' => Hash::make($request->password),
-            'email' => $request->email
+            'email' => $request->email,
+            'name' => $request->name
         ]);
 
         $permissions = User::getUserPermission($user->id);
@@ -44,7 +46,8 @@ class AuthenticationController extends Controller
 
         return \response()->json([
             "token" => $token,
-            "permissionName" => $permissionname
+            "permissionName" => $permissionname,
+            "userID" => $user->id
         ]);
     }
 
@@ -86,7 +89,8 @@ class AuthenticationController extends Controller
 
         return \response()->json([
             "token" => $token,
-            "permissionName" => $permissionname
+            "permissionName" => $permissionname,
+            "userID" => Auth::id()
         ]);
     }
 

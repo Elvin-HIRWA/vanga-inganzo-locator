@@ -41,9 +41,17 @@ class KeyList extends Command
     {
         $keys = $service->listKey();
 
+        $keys = array_map(function ($item) {
+
+            $item = (array) $item;
+
+            return $item;
+
+        }, $keys);
+
         $this->table(
-            ['id', 'value', 'permissionID'],
-            $keys
+            ['id', 'value', 'permissionName'],
+            (array)$keys
         );
     }
 }
