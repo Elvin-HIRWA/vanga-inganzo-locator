@@ -87,8 +87,8 @@ class EntertainmentsController extends Controller
             'venue' => $request->venue,
             'userID' => $request->userID,
             'img_path' => $path,
-            'startTime' => $request->startTime,
-            'endTime' => $request->endTime
+            'startTime' => strtotime($request->startTime),
+            'endTime' => strtotime($request->endTime)
         ]);
 
         return response()->json(['success' => true], Response::HTTP_OK);
