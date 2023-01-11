@@ -41,7 +41,6 @@ Route::prefix('entertainments')->group(function () {
     Route::get('/get/{id}', [EntertainmentsController::class, 'show'])->middleware('auth:sanctum');
     Route::post('/update/{id}', [EntertainmentsController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [EntertainmentsController::class, 'destroy'])->middleware('auth:sanctum');
-    Route::get('/get-image/{filename}', [EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
 });
 
 Route::prefix('blog')->group(function () {
@@ -50,7 +49,7 @@ Route::prefix('blog')->group(function () {
     Route::get('/get/{id}', [BlogController::class, 'show'])->middleware('auth:sanctum');
     Route::post('/update/{id}', [BlogController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [BlogController::class, 'destroy'])->middleware('auth:sanctum');
-    Route::get('/get-image/{filename}', [EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
+    
 });
 
 Route::prefix('entertainmentsPost')->group(function () {
