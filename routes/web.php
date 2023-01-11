@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\EntertainmentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/postFlyer/{filename}', [EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
+
+Route::get('/blogPost/{filename}', [BlogController::class, 'getImage'])->middleware('auth:sanctum');

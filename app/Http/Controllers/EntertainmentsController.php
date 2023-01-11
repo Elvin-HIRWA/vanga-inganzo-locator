@@ -178,8 +178,8 @@ class EntertainmentsController extends Controller
     public function getImage($fileName)
     {
         if (Storage::exists('postFlyer/' . $fileName)) {
-            
-            return response()->file(storage_path('/app/postFlyer/' . $fileName));
+
+          return Storage::response('/postFlyer/' . $fileName);
         }
         else{
             return response()->json(['File not Found']);
