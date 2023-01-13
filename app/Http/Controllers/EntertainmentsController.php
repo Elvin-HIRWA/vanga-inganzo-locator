@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -184,5 +185,32 @@ class EntertainmentsController extends Controller
         else{
             return response()->json(['File not Found']);
         }
+    }
+
+    public function getEntertainment()
+    {
+        $entertainments =  DB::table("Entertainment")->orderBy('created_at', 'DESC')->get();
+
+        $result = [];
+
+        foreach($entertainments as $value){
+
+            $entertainment = [
+                "id" => $value->id,
+                "name" => $value->name,
+                "venue" =>$value->venue,
+                "userID" => $value->userID,
+                "startTime" =>  Carbon::parse($value->startTime)->format('Y-m-d H:i'),
+                "endTime" => Carbon::parse($value->endTime)->format('Y-m-d H:i'),
+                // "eventDate" => Carbon::parse($value->eventDate)->format('Y-m-d'),
+                "img_path" => $value->img_path,
+                "created_at" => $value->created_at,
+                "updated_at" => $value->updated_at
+            ];
+
+            array_push($result,$entertainment);
+        }
+        
+            return response()->json($result);
     }
 }

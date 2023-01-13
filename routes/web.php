@@ -19,6 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/postFlyer/{filename}', [EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
+Route::get('/postFlyer/{filename}', [EntertainmentsController::class, 'getImage']);
 
-Route::get('/blogPost/{filename}', [BlogController::class, 'getImage'])->middleware('auth:sanctum');
+Route::get('/blogPost/{filename}', [BlogController::class, 'getImage']);
