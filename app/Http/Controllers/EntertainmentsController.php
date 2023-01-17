@@ -130,12 +130,11 @@ class EntertainmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request-> validate([
+        $request->validate([
             'name' => 'required|string',
             'venue'=>'required|string',
             'startTime'=>'required',
             'endTime'=>'required',
-            'eventDate'=>'required',
             'image'=>'required|mimes:jpg,png,jpeg|max:5048'
         ]);
 

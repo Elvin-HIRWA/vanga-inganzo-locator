@@ -47,7 +47,8 @@ class AuthenticationController extends Controller
         return \response()->json([
             "token" => $token,
             "permissionName" => $permissionname,
-            "userID" => $user->id
+            "userID" => $user->id,
+            "userName" => $user->name
         ]);
     }
 
@@ -90,7 +91,8 @@ class AuthenticationController extends Controller
         return \response()->json([
             "token" => $token,
             "permissionName" => $permissionname,
-            "userID" => Auth::id()
+            "userID" => Auth::id(),
+            "userName" => $user->name
         ]);
     }
 

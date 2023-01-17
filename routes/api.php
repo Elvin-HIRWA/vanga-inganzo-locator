@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntertainmentsController;
 use App\Http\Controllers\EntertainmentsPostController;
 use App\Http\Controllers\KeyController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SendingKeyController;
@@ -47,6 +49,7 @@ Route::prefix('entertainments')->group(function () {
 Route::prefix('blog')->group(function () {
     Route::post('/create', [BlogController::class, 'store'])->middleware('auth:sanctum');
     Route::get('/get', [BlogController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/all', [BlogController::class, 'getBlog']);
     Route::get('/get/{id}', [BlogController::class, 'show'])->middleware('auth:sanctum');
     Route::post('/update/{id}', [BlogController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/delete/{id}', [BlogController::class, 'destroy'])->middleware('auth:sanctum');
@@ -61,6 +64,7 @@ Route::prefix('entertainmentsPost')->group(function () {
     // Route::delete('/delete/{id}', [BlogController::class, 'destroy'])->middleware('auth:sanctum');
     // Route::get('/get-image/{filename}',[EntertainmentsController::class, 'getImage'])->middleware('auth:sanctum');
 });
+Route::get('/number-users',[DashboardController::class, 'numberOfUsers']);
 
 Route::post('/sending-key', [SendingKeyController::class, 'sendingKey'])->middleware(['auth:sanctum', 'ability:Admin']);
 Route::post('/permission-create', [PermissionController::class, 'permissionCreate'])->middleware(['auth:sanctum', 'ability:Admin']);
@@ -77,3 +81,9 @@ Route::get('/key-permission-list', [KeyController::class, 'permissionKeyList'])-
 
 Route::get('/users', [UsersController::class, 'getAllUsers'])->middleware(['auth:sanctum', 'ability:Admin']);
 Route::get('/user/{id}', [UsersController::class, 'getSingleUser'])->middleware(['auth:sanctum', 'ability:Admin']);
+
+Route::post('/message', [MessageController::class, 'store']);
+Route::get('/message/get', [MessageController::class, 'index']);
+
+Route::get('/dashboard/get', [DashboardController::class, 'numberOfUsers']);
+

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
@@ -15,9 +17,36 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     return BlogPost::all();
+    // }
+
     public function index()
     {
-        return BlogPost::all();
+        $blogs =  BlogPost::where('userID',Auth::id())->orderBy('created_at', 'DESC')->get();
+
+        $result = [];
+
+        foreach($blogs as $value){
+
+            $blog = [
+                "id" => $value->id,
+                "title" => $value->title,
+                "description" =>$value->description,
+                "userID" => $value->userID,
+                "image_path" => $value->image_path,
+                "created_at" => $value->created_at,
+                "updated_at" => $value->updated_at
+            ];
+
+            array_push($result,$blog);
+        }
+        
+            return response()->json($result);
+        
+
+        
     }
 
     /**
@@ -143,5 +172,39 @@ class BlogController extends Controller
         else{
             return response()->json(['File not Found']);
         }
+    }
+
+    public function getBlog()
+    {
+        // $entertainments =  DB::table("BlogPost")
+        // ->orderBy('created_at', 'DESC')->get();
+// dd($entertainments );
+        $result = [];
+
+        $entertainments = DB::select("SELECT a.*, b.name AS userName
+        FROM BlogPost AS a
+        INNER JOIN User AS b
+        ON a.userID = b.id");
+
+        foreach($entertainments as $value){
+
+            $entertainment = [
+                "id" => $value->id,
+                "title" => $value->title,
+                "description" =>$value->description,
+                "userID" => $value->userID,
+                "image_path" => $value->image_path,
+                "created_at" => $value->created_at,
+                "updated_at" => $value->updated_at,
+                "month" => Carbon::parse($value->created_at)->format('M'),
+                "day" => Carbon::parse($value->created_at)->format('d'),
+                "year" => Carbon::parse($value->created_at)->format('y'),
+                "userName" => $value->userName,
+            ];
+
+            array_push($result,$entertainment);
+        }
+        
+            return response()->json($result);
     }
 }
